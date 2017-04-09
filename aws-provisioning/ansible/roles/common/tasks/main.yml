@@ -7,7 +7,7 @@
 
 - name: System update
   apt:
-    upgrade: full
+    upgrade: dist
     force: yes
     update_cache: yes
 

@@ -1,7 +1,8 @@
 ---
 - name: Install app
   hosts: all
-  remote_user: root
+  remote_user: admin
+  become: true
   roles:
     - common
     - php

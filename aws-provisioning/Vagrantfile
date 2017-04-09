@@ -12,12 +12,13 @@ Vagrant.configure("2") do |config|
 
       aws.region = "eu-west-1"
       aws.instance_type = "t2.micro"
-      aws.ami = "ami-7d9ea61b"
+      aws.ami = "ami-3291be54" # debian jessie x64
 
-      #Install python2.7 for ansible
-      #aws.user_data = "#!/bin/bash\napt-get install --yes python2.7\nln -s /usr/bin/python2.7 /usr/bin/python"
+      aws.tags = {
+        'Name' => 'Vagrant'
+      }
 
-      override.ssh.username = "gmarciani"
+      override.ssh.username = "admin"
       override.ssh.private_key_path = ENV["AWS_KEYPAIR_PATH"]
     end
   end
@@ -34,8 +35,8 @@ Vagrant.configure("2") do |config|
     type: "rsync",
     create: true
 
-  #config.vm.provision "ansible" do |ansible|
-  #  ansible.playbook = "ansible/playbook.yml"
-  #end
+  config.vm.provision :ansible do |ansible|
+    ansible.playbook = "ansible/playbook.yml"
+  end
 
 end
