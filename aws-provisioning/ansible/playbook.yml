@@ -1,9 +1,25 @@
 ---
-- name: Install app
-  hosts: all
+- name: Install instance_front
+  hosts: instance_front
   remote_user: admin
   become: true
   roles:
     - common
-    - php
-    - nginx
+    - kafka
+
+- name: Install instance_core
+  hosts: instance_core
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - java
+    - flink
+
+- name: Install instance_back
+  hosts: instance_back
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - neo4j
