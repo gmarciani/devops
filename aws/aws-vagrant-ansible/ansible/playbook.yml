@@ -16,6 +16,7 @@
     - common
     - java
     - flink
+    - flink-app
 
 - name: provision neo4j nodes
   hosts: neo4j
