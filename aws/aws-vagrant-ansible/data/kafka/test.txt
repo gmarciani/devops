@@ -1,2 +1,2 @@
-# INSTANCE FRONT
+# INSTANCE KAFKA
 This is a test file

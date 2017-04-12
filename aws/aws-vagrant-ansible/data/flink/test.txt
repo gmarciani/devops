@@ -1,2 +1,2 @@
-# INSTANCE CORE
+# INSTANCE FLINK
 This is a test file
