@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       srv.vm.provider :aws do |aws, override|
         aws.instance_type = instance["type"]
         aws.ami = instance["ami"]
-        aws.security_groups = ["default"]
+        aws.security_groups = instance["security_groups"]
         aws.tags = {
           "Name" => instance["name"]
         }

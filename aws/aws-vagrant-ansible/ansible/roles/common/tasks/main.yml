@@ -1,17 +1,12 @@
 ---
 # file: common/tasks/main.yml
-- name: Configure hosts
-  template:
-    src: hosts.txt
-    dest: /etc/hosts
-
-- name: System update
+- name: system update
   apt:
     upgrade: dist
     force: yes
     update_cache: yes
 
-- name: Install required packages
+- name: install required packages
   apt:
     name: "{{ item }}"
     state: latest
@@ -20,3 +15,4 @@
     - build-essential
     - htop
     - curl
+    - vim

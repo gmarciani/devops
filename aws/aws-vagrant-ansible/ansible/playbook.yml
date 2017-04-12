@@ -1,5 +1,5 @@
 ---
-- name: Install instance_front
+- name: provision kafka nodes
   hosts: kafka
   remote_user: admin
   become: true
@@ -8,7 +8,7 @@
     - java
     - kafka
 
-- name: Install instance_core
+- name: provision flink nodes
   hosts: flink
   remote_user: admin
   become: true
@@ -17,7 +17,7 @@
     - java
     - flink
 
-- name: Install instance_back
+- name: provision neo4j nodes
   hosts: neo4j
   remote_user: admin
   become: true
