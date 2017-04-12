@@ -1,14 +1,15 @@
 ---
 - name: Install instance_front
-  hosts: instance_front
+  hosts: kafka
   remote_user: admin
   become: true
   roles:
     - common
+    - java
     - kafka
 
 - name: Install instance_core
-  hosts: instance_core
+  hosts: flink
   remote_user: admin
   become: true
   roles:
@@ -17,9 +18,10 @@
     - flink
 
 - name: Install instance_back
-  hosts: instance_back
+  hosts: neo4j
   remote_user: admin
   become: true
   roles:
     - common
+    - java
     - neo4j

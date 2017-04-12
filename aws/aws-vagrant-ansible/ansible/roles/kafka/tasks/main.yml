@@ -77,8 +77,8 @@
 
 - name: configure Kafka
   template:
-    src: "{ item }"
-    dest: "{{ kafka_home }}/conf/{ item }"
+    src: "{{ item }}"
+    dest: "{{ kafka_home }}/config/{{ item }}"
   notify: restart Kafka
   with_items:
     - zookeeper.properties

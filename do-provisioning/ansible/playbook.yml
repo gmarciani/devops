@@ -1,8 +1,0 @@
----
-- name: Install app
-  hosts: all
-  remote_user: root
-  roles:
-    - common
-    - php
-    - nginx
