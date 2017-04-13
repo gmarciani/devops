@@ -1,2 +1,2 @@
-# INSTANCE FLINK
+# KAFKA
 This is a test file

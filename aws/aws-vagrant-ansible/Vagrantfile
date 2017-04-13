@@ -10,7 +10,15 @@ require "yaml"
 Vagrant.require_version ">= 1.9.1"
 VAGRANTFILE_API_VERSION = "2"
 ENV["VAGRANT_DEFAULT_PROVIDER"] = "aws"
-instances = YAML.load_file(File.join(File.dirname(__FILE__), "instances.yaml"))
+inventory = YAML.load_file(File.join(File.dirname(__FILE__), "inventory.yaml"))
+
+ansible_groups = {}
+inventory.each do |cluster|
+  ansible_groups[cluster["name"]] = []
+  cluster["instances"].each do |instance|
+    ansible_groups[cluster["name"]] << instance["name"]
+  end
+end
 
 #*******************************************************************************
 # CONFIGURATION
@@ -27,43 +35,47 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.region = "eu-west-1"
   end # config.vm.provider aws
 
-  instances.each do |instance|
-    config.vm.define instance["name"] do |srv|
+  inventory.each do |cluster|
+    cluster["instances"].each do |instance|
+      config.vm.define instance["name"] do |srv|
+        srv.vm.provider :aws do |aws, override|
+          aws.instance_type = instance["type"]
+          aws.ami = instance["ami"]
+          aws.security_groups = instance["security_groups"]
+          aws.tags = {
+            "Name" => instance["name"]
+          }
+          override.ssh.username = instance["user"]
+          override.ssh.private_key_path = ENV["AWS_KEYPAIR_PATH"]
+        end # config.vm.provider aws
 
-      srv.vm.provider :aws do |aws, override|
-        aws.instance_type = instance["type"]
-        aws.ami = instance["ami"]
-        aws.security_groups = instance["security_groups"]
-        aws.tags = {
-          "Name" => instance["name"]
-        }
+        srv.vm.synced_folder ".", "/vagrant", disabled: true
 
-        override.ssh.username = instance["user"]
-        override.ssh.private_key_path = ENV["AWS_KEYPAIR_PATH"]
-      end # config.vm.provider aws
+        srv.vm.synced_folder "data/common", "/vagrant/data/common",
+          id: "data_common",
+          disabled: false,
+          type: "rsync",
+          create: true
 
-      srv.vm.synced_folder ".", "/vagrant", disabled: true
+        srv.vm.synced_folder "data/" + cluster["name"] + "/common", "/vagrant/data/cluster",
+          id: "data_cluster",
+          disabled: false,
+          type: "rsync",
+          create: true
 
-      srv.vm.synced_folder "data/common", "/vagrant/data",
-        id: "data_common",
-        disabled: false,
-        type: "rsync",
-        create: true
+        srv.vm.synced_folder "data/" + cluster["name"] + "/" + instance["name"], "/vagrant/data/instance",
+          id: "data_instance",
+          disabled: false,
+          type: "rsync",
+          create: true
+      end # config.vm.define instance[name]
+    end # cluster.each do instance
+  end # inventory.each do cluster
 
-      srv.vm.synced_folder "data/" + instance["name"], "/vagrant/data",
-        id: "data_instance",
-        disabled: false,
-        type: "rsync",
-        create: true
-    end # config.vm.define
-
-  end # instances.each instance
-
-#*******************************************************************************
-# PROVISIONING
-#*******************************************************************************
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "ansible/playbook.yml"
-  end
+    ansible.groups = ansible_groups
+    ansible.verbose = true
+  end # config.vm.provision ansible
 
-end
+end # Vagrant.configure

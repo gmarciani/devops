@@ -1,11 +1,19 @@
 ---
+# file: playbook.yml
+- name: common configuration
+  hosts: all
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - ec2
+    - java
+
 - name: provision kafka nodes
   hosts: kafka
   remote_user: admin
   become: true
   roles:
-    - common
-    - java
     - kafka
 
 - name: provision flink nodes
@@ -13,8 +21,6 @@
   remote_user: admin
   become: true
   roles:
-    - common
-    - java
     - flink
     - flink-app
 
@@ -23,6 +29,4 @@
   remote_user: admin
   become: true
   roles:
-    - common
-    - java
     - neo4j

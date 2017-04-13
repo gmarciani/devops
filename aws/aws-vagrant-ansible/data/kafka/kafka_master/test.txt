@@ -1,2 +1,2 @@
-# COMMON
+# KAFKA MASTER
 This is a test file

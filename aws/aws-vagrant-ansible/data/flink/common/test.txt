@@ -1,2 +1,2 @@
-# INSTANCE NEO4J
+# FLINK
 This is a test file

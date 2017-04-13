@@ -1,2 +1,2 @@
-# COMMON
+# FLINK MASTER
 This is a test file
