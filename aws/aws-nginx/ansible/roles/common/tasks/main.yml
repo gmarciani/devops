@@ -1,0 +1,18 @@
+---
+# file: common/tasks/main.yml
+- name: system update
+  apt:
+    upgrade: dist
+    force: yes
+    update_cache: yes
+
+- name: install required packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - build-essential
+    - htop
+    - curl
+    - vim

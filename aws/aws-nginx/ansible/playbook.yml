@@ -1,0 +1,17 @@
+---
+# file: playbook.yml
+- name: common configuration
+  hosts: all
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - ec2
+
+- name: provision webservers
+  hosts: webserver
+  remote_user: admin
+  become: true
+  roles:
+    - php
+    - nginx
