@@ -1,0 +1,9 @@
+---
+# file: inventory.yaml
+- name: "java"
+  instances:
+    - name: "java_master"
+      type: "t2.medium"
+      ami: "ami-3291be54"
+      user: "admin"
+      security_groups: ["default"]

@@ -1,0 +1,17 @@
+---
+# file: playbook.yml
+- name: common configuration
+  hosts: all
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - ec2
+    - java
+
+- name: provision java app
+  hosts: java
+  remote_user: admin
+  become: true
+  roles:
+    - java-app
