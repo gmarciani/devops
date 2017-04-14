@@ -1,0 +1,17 @@
+---
+# file: playbook.yml
+- name: common configuration
+  hosts: all
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - ec2
+    - java
+
+- name: provision neo4j nodes
+  hosts: neo4j
+  remote_user: admin
+  become: true
+  roles:
+    - neo4j
