@@ -21,11 +21,11 @@ Install the box:
 ## Usage
 Load the credentials into the environment:
 
-  $> source do-credentials.sh
+  $> source .credentials.sh
 
-Create and provision the Droplet:
+Create and provision the EC2 instances:
 
-  $> vagrant up --provider=aws
+  $> vagrant up
 
 
 ## Authors
