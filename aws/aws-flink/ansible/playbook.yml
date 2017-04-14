@@ -1,0 +1,18 @@
+---
+# file: playbook.yml
+- name: common configuration
+  hosts: all
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - ec2
+    - java
+
+- name: provision flink nodes
+  hosts: flink
+  remote_user: admin
+  become: true
+  roles:
+    - flink
+    - flink-app
