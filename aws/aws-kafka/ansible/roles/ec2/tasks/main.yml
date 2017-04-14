@@ -1,0 +1,16 @@
+---
+# file: ec2/tasks/main.yml
+- name: gather ec2 facts
+  ec2_facts:
+
+- name: report ec2 facts
+  debug:
+    msg: "{{ ansible_ec2_public_ipv4 }}"
+
+- name: report kafka_zookeeper_master ip
+  debug:
+    msg: "{{ hostvars['kafka_zookeeper_master']['ansible_ssh_host'] }}"
+
+- name: report kafka_broker ip
+  debug:
+    msg: "{{ hostvars['kafka_broker']['ansible_ssh_host'] }}"

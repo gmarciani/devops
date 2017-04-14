@@ -1,0 +1,24 @@
+---
+# file: playbook.yml
+- name: common configuration
+  hosts: all
+  remote_user: admin
+  become: true
+  roles:
+    - common
+    - ec2
+    - java
+
+- name: provision kafka zookeeper
+  hosts: kafka_zookeeper
+  remote_user: admin
+  become: true
+  roles:
+    - zookeeper
+
+- name: provision kafka brokers
+  hosts: kafka_brokers
+  remote_user: admin
+  become: true
+  roles:
+    - kafka

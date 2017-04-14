@@ -1,0 +1,7 @@
+---
+# file: kafka/vars/mail.yml
+kafka_download: http://mirror.nohup.it/apache/kafka/0.10.2.0/kafka_2.11-0.10.2.0.tgz
+kafka_archive_path: /tmp/kafka_2.11-0.10.2.0.tgz
+kafka_home: /opt/kafka_2.11-0.10.2.0
+zookeeper_manager_path: /opt/systemd/zookeeper-manager.sh
+zookeeper_port: 2181

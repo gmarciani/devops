@@ -1,0 +1,16 @@
+---
+# file: inventory.yaml
+- name: "kafka_zookeeper"
+  instances:
+    - name: "kafka_zookeeper_master"
+      type: "t2.medium"
+      ami: "ami-3291be54"
+      user: "admin"
+      security_groups: ["kafka-group"]
+- name: "kafka_brokers"
+  instances:
+    - name: "kafka_broker"
+      type: "t2.medium"
+      ami: "ami-3291be54"
+      user: "admin"
+      security_groups: ["kafka-group"]

@@ -1,0 +1,15 @@
+[Unit]
+Description=Kafka service
+After=network.target
+
+[Service]
+Type=forking
+ExecStart={{ zookeeper_manager_path }} start
+ExecStop={{ zookeeper_manager_path }} stop
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=zookeeper
+
+[Install]
+WantedBy=multi-user.target

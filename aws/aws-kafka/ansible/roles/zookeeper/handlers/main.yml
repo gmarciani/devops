@@ -1,0 +1,6 @@
+---
+# file: zookeeper/handlers/main.yml
+- name: restart Zookeeper
+  systemd:
+    name: zookeeper.service
+    state: restarted
