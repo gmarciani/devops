@@ -4,5 +4,6 @@ java_app_config_path: "/vagrant/data/app/config.yaml"
 java_app_jar_path: "/vagrant/data/app/app.jar"
 java_app_neo4j_username: "neo4j"
 java_app_neo4j_password: "password"
-java_app_neo4j_hostname: "54.246.145.168"
+java_app_neo4j_bolt_address: "54.246.145.168"
 java_app_neo4j_bolt_port: "7687"
+s
