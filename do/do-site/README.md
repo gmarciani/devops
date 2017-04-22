@@ -1,6 +1,6 @@
-# DIGITAL OCEAN PROVISIONING
+# DO SITE
 
-*Provisioning of Digital Ocean droplet with Vagrant and Ansible*
+*Provisioning of a website on Digital Ocean with Vagrant and Ansible*
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -8,20 +8,32 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 
-## Setup
-Install the plugin:
+## Requirements
+Install the plugin *vagrant-digitalocean*:
 
   $> vagrant plugin install vagrant-digitalocean
 
 
-## Usage
-Load the credentials into the environment:
+## Deploy
+Load credentials:
 
-  $> source do-credentials.sh
+  $> source .credentials.sh
 
 Create and provision the Droplet:
 
-  $> vagrant up --provider=digital_ocean
+  $> vagrant up
+
+Refresh provisioning:
+
+  $> vagrant provision
+
+Sync data:
+
+  $> vagrant rsync
+
+Destroy the Droplet:
+
+  $> vagrant destroy -f
 
 
 ## Authors

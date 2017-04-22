@@ -2,6 +2,7 @@
 # PACKAGES
 #*******************************************************************************
 require "vagrant-digitalocean"
+require "yaml"
 
 #*******************************************************************************
 # REQUIREMENTS
@@ -9,22 +10,23 @@ require "vagrant-digitalocean"
 Vagrant.require_version ">= 1.9.1"
 VAGRANTFILE_API_VERSION = "2"
 ENV["VAGRANT_DEFAULT_PROVIDER"] = "digital_ocean"
-PROJECT_NAME = "do-site"
+
+inventory = YAML.load_file(File.join(File.dirname(__FILE__), "inventory.yaml"))
 
 #*******************************************************************************
 # CONFIGURATION
 #*******************************************************************************
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.define PROJECT_NAME do |config|
+  config.vm.define inventory["instance"]["name"] do |config|
     config.vm.provider :digital_ocean do |provider, override|
       override.vm.box = "digital_ocean"
       override.vm.box_url = "https://github.com/devops-group-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
       override.ssh.private_key_path = ENV["DO_PRIVATE_KEYPATH"]
       provider.token = ENV["DO_TOKEN"]
-      provider.image = "debian-8-x64"
-      provider.region = "ams2"
-      provider.size = "512mb"
+      provider.image = inventory["instance"]["image"]
+      provider.region = inventory["instance"]["region"]
+      provider.size = inventory["instance"]["size"]
     end # config.vm.provider digital_ocean
   end # config.vm.define PROJECT_NAME
 
@@ -44,6 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "ansible/playbook.yml"
+    ansible.verbose = true
   end # config.vm.provision ansible
 
 end # Vagrant.configure
