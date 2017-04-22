@@ -1,0 +1,58 @@
+#*******************************************************************************
+# PACKAGES
+#*******************************************************************************
+require "vagrant-aws"
+require "yaml"
+
+#*******************************************************************************
+# REQUIREMENTS
+#*******************************************************************************
+Vagrant.require_version ">= 1.9.1"
+VAGRANTFILE_API_VERSION = "2"
+ENV["VAGRANT_DEFAULT_PROVIDER"] = "aws"
+
+inventory = YAML.load_file(File.join(File.dirname(__FILE__), "inventory.yaml"))
+
+#*******************************************************************************
+# CONFIGURATION
+#*******************************************************************************
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box = "dummy"
+
+  config.vm.provider :aws do |aws, override|
+    aws.access_key_id = ENV["AWS_ACCESS_KEY_ID"]
+    aws.secret_access_key = ENV["AWS_SECRET_ACCESS_KEY"]
+    aws.keypair_name = ENV["AWS_KEYPAIR_NAME"]
+
+    aws.region = inventory["region"]
+  end # config.vm.provider aws
+
+  config.vm.define inventory["instance"]["name"] do |srv|
+    srv.vm.provider :aws do |aws, override|
+      aws.instance_type = inventory["instance"]["type"]
+      aws.ami = inventory["instance"]["ami"]
+      aws.security_groups = inventory["instance"]["security_groups"]
+      aws.tags = {
+        "Name" => inventory["instance"]["name"],
+        "Project" => inventory["project"]["name"]
+      }
+      override.ssh.username = inventory["instance"]["user"]
+      override.ssh.private_key_path = ENV["AWS_KEYPAIR_PATH"]
+    end # config.vm.provider aws
+
+    srv.vm.synced_folder ".", "/vagrant", disabled: true
+
+    srv.vm.synced_folder "data", "/vagrant/data",
+      id: "data",
+      disabled: false,
+      type: "rsync",
+      create: true
+  end # config.vm.define instance[name]
+
+  config.vm.provision :ansible do |ansible|
+    ansible.playbook = "ansible/playbook.yml"
+    ansible.verbose = true
+  end # config.vm.provision ansible
+
+end # Vagrant.configure
