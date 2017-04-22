@@ -6,4 +6,3 @@ java_app_neo4j_username: "neo4j"
 java_app_neo4j_password: "password"
 java_app_neo4j_bolt_address: "54.246.145.168"
 java_app_neo4j_bolt_port: "7687"
-s
