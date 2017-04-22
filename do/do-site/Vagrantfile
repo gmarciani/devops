@@ -1,0 +1,49 @@
+#*******************************************************************************
+# PACKAGES
+#*******************************************************************************
+require "vagrant-digitalocean"
+
+#*******************************************************************************
+# REQUIREMENTS
+#*******************************************************************************
+Vagrant.require_version ">= 1.9.1"
+VAGRANTFILE_API_VERSION = "2"
+ENV["VAGRANT_DEFAULT_PROVIDER"] = "digital_ocean"
+PROJECT_NAME = "do-site"
+
+#*******************************************************************************
+# CONFIGURATION
+#*******************************************************************************
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.define PROJECT_NAME do |config|
+    config.vm.provider :digital_ocean do |provider, override|
+      override.vm.box = "digital_ocean"
+      override.vm.box_url = "https://github.com/devops-group-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+      override.ssh.private_key_path = ENV["DO_PRIVATE_KEYPATH"]
+      provider.token = ENV["DO_TOKEN"]
+      provider.image = "debian-8-x64"
+      provider.region = "ams2"
+      provider.size = "512mb"
+    end # config.vm.provider digital_ocean
+  end # config.vm.define PROJECT_NAME
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.synced_folder "site/", "/vagrant/site",
+    id: "site",
+    disabled: false,
+    type: "rsync",
+    create: true
+
+  config.vm.synced_folder "data/", "/vagrant/data",
+    id: "data",
+    disabled: false,
+    type: "rsync",
+    create: true
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "ansible/playbook.yml"
+  end # config.vm.provision ansible
+
+end # Vagrant.configure
