@@ -43,6 +43,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     srv.vm.synced_folder ".", "/vagrant", disabled: true
 
+    srv.vm.synced_folder "site", "/vagrant/site",
+      id: "site",
+      disabled: false,
+      type: "rsync",
+      create: true
+
     srv.vm.synced_folder "data", "/vagrant/data",
       id: "data",
       disabled: false,
