@@ -1,0 +1,15 @@
+---
+# file: inventory.yaml
+instances:
+  - name: "do-neo4j-master"
+    image: "debian-8-x64"
+    region: "ams2"
+    size: "512mb"
+  - name: "do-neo4j-slave-1"
+    image: "debian-8-x64"
+    region: "ams2"
+    size: "512mb"
+  - name: "do-neo4j-slave-2"
+    image: "debian-8-x64"
+    region: "ams2"
+    size: "512mb"

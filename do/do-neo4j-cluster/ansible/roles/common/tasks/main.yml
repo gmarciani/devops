@@ -1,0 +1,26 @@
+---
+# file: common/tasks/main.yml
+- name: system update
+  apt:
+    upgrade: dist
+    force: yes
+    update_cache: yes
+
+- name: install required packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - build-essential
+    - htop
+    - curl
+    - vim
+
+- name: report current index
+  debug:
+    msg: "index: {{ play_hosts.index(inventory_hostname) }}"
+
+- name: report initial hosts
+  debug:
+    msg: "initial hosts: {{ hostvars['do-neo4j-master']['ansible_ssh_host'] }}:5001,{{ hostvars['do-neo4j-slave-1']['ansible_ssh_host'] }}:5001,{{ hostvars['do-neo4j-slave-2']['ansible_ssh_host'] }}:5001"

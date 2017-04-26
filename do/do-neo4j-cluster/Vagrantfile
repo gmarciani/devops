@@ -1,0 +1,48 @@
+#*******************************************************************************
+# PACKAGES
+#*******************************************************************************
+require "vagrant-digitalocean"
+require "yaml"
+
+#*******************************************************************************
+# REQUIREMENTS
+#*******************************************************************************
+Vagrant.require_version ">= 1.9.1"
+VAGRANTFILE_API_VERSION = "2"
+ENV["VAGRANT_DEFAULT_PROVIDER"] = "digital_ocean"
+
+inventory = YAML.load_file(File.join(File.dirname(__FILE__), "inventory.yaml"))
+
+#*******************************************************************************
+# CONFIGURATION
+#*******************************************************************************
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+    inventory["instances"].each do |instance|
+      config.vm.define instance["name"] do |config|
+        config.vm.provider :digital_ocean do |provider, override|
+          override.vm.box = "digital_ocean"
+          override.vm.box_url = "https://github.com/devops-group-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+          override.ssh.private_key_path = ENV["DO_PRIVATE_KEYPATH"]
+          provider.token = ENV["DO_TOKEN"]
+          provider.image = instance["image"]
+          provider.region = instance["region"]
+          provider.size = instance["size"]
+        end # config.vm.provider digital_ocean
+      end # config.vm.define instance[name]
+    end # inventory[instances].each do instance
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.synced_folder "data/", "/vagrant/data",
+    id: "data",
+    disabled: false,
+    type: "rsync",
+    create: true
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "ansible/playbook.yml"
+    ansible.verbose = true
+  end # config.vm.provision ansible
+
+end # Vagrant.configure

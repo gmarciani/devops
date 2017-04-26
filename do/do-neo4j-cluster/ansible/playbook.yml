@@ -1,0 +1,23 @@
+---
+# file: playbook.yml
+- name: common configuration
+  hosts: all
+  remote_user: root
+  become: true
+  roles:
+    - common
+    - java
+
+- name: provision neo4j master
+  hosts: do-neo4j-master
+  remote_user: root
+  become: true
+  roles:
+    - neo4j_master
+
+- name: provision neo4j slaves
+  hosts: do-neo4j-slave-1,do-neo4j-slave-2
+  remote_user: root
+  become: true
+  roles:
+    - neo4j_slave
