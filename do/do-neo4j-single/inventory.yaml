@@ -1,0 +1,7 @@
+---
+# file: inventory.yaml
+instance:
+  name: "do-neo4j-single"
+  image: "debian-8-x64"
+  region: "ams2"
+  size: "512mb"
