@@ -1,0 +1,15 @@
+---
+# file: playbook.yml
+- name: common configuration
+  hosts: all
+  remote_user: root
+  become: true
+  roles:
+    - common
+    - java
+
+- name: provision springapp
+  hosts: all
+  remote_user: root
+  roles:
+    - springapp

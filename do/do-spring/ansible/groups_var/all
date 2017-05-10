@@ -1,0 +1,3 @@
+---
+# file: group_vars/all
+java_home: /opt/jdk1.8.0_121

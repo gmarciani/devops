@@ -1,0 +1,7 @@
+---
+# file: inventory.yaml
+instance:
+  name: "do-spring"
+  image: "debian-8-x64"
+  region: "ams2"
+  size: "512mb"

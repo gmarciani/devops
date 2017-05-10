@@ -1,0 +1,6 @@
+---
+# file: springapp/handlers/main.yml
+- name: restart springapp
+  systemd:
+    name: springapp.service
+    state: restarted

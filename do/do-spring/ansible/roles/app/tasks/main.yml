@@ -1,0 +1,57 @@
+---
+# file: springapp/tasks/main.yml
+- name: setting hostnames
+  template:
+    src: hosts.txt
+    dest: /etc/hosts
+
+- name: check springapp (jar)
+  stat:
+    path: "{{ java_home }}/bin/springapp.jar"
+  register: appJar
+
+- name: configure permissions for springapp
+  file:
+    path: "{{ app_home }}/{{ item }}"
+    mode: 755
+  with_items:
+    - springapp-1.0.jar
+
+- name: configure envars Neo4J
+  lineinfile:
+    name: /etc/profile.d/springapp-env.sh
+    regexp: "^JAVA_HOME="
+    line: "JAVA_HOME={{ java_home }}"
+    state: present
+    insertbefore: BOF
+    create: yes
+
+- name: create directory for manager springapp
+  file:
+    path: "{{ app_manager_path | dirname }}"
+    state: directory
+    mode: 755
+
+- name: create manager springapp
+  template:
+    src: springapp-manager.sh
+    dest: "{{ app_manager_path }}"
+    mode: 755
+
+- name: create service springapp
+  template:
+    src: springapp.service
+    dest: /etc/systemd/system/springapp.service
+    mode: 664
+
+- name: start service springapp
+  systemd:
+    name: springapp
+    state: started
+    enabled: yes
+
+- name: configure springapp
+  template:
+    src: config.yaml
+    dest: "{{ app_home }}/config.yaml"
+  notify: restart springapp

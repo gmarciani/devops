@@ -1,0 +1,7 @@
+---
+# file: springapp/vars/mail.yml
+springapp_home: /vagrant/springapp
+springapp_manager_path: /opt/systemd/springapp-manager.sh
+springapp_hostname: localhost
+springapp_http_port: 8080
+springapp_start_wait: 10
