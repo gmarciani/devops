@@ -17,7 +17,6 @@ inventory = YAML.load_file(File.join(File.dirname(__FILE__), "inventory.yaml"))
 # CONFIGURATION
 #*******************************************************************************
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-
   config.vm.define inventory["instance"]["name"] do |config|
     config.vm.provider :digital_ocean do |provider, override|
       override.vm.box = "digital_ocean"
@@ -28,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       provider.region = inventory["instance"]["region"]
       provider.size = inventory["instance"]["size"]
     end # config.vm.provider digital_ocean
-  end # config.vm.define PROJECT_NAME
+  end # config.vm.define INSTANCE_NAME
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
