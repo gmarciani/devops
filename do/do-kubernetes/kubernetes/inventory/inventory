@@ -1,0 +1,21 @@
+node1 ansible_ssh_host=188.226.158.137 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa # ip=10.3.0.1
+node2 ansible_ssh_host=188.226.143.200 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa # ip=10.3.0.2
+node3 ansible_ssh_host=146.185.151.247 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa # ip=10.3.0.3
+node4 ansible_ssh_host=188.226.136.68 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa # ip=10.3.0.4
+
+# ## configure a bastion host if your nodes are not directly reachable
+# bastion ansible_ssh_host=x.x.x.x
+
+[kube-master]
+node1
+
+[etcd]
+node2
+
+[kube-node]
+node3
+node4
+
+[k8s-cluster:children]
+kube-node
+kube-master

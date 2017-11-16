@@ -1,0 +1,20 @@
+---
+do_token: 3ca9cb9018bf021733ffdcb44273d995c44992abce2489778f9190254cbaba95
+
+droplets:
+  kubernetes-master-1:
+    image_id: ubuntu-16-04-x64
+    size_id: 4gb
+    region_id: ams2
+  kubernetes-etcd-1:
+    image_id: ubuntu-16-04-x64
+    size_id: 2gb
+    region_id: ams2
+  kubernetes-worker-1:
+    image_id: ubuntu-16-04-x64
+    size_id: 2gb
+    region_id: ams2
+  kubernetes-worker-2:
+    image_id: ubuntu-16-04-x64
+    size_id: 2gb
+    region_id: ams2

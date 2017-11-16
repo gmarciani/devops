@@ -1,0 +1,31 @@
+---
+- hosts: digitalocean
+  tasks:
+    - name: Ensure ssh key exists
+      user:
+        name: "{{ ansible_user_id }}"
+        generate_ssh_key: yes
+        ssh_key_file: .ssh/id_rsa
+
+    - name: Ensure SSH key exists at DigitalOcean
+      digital_ocean:
+        command: ssh
+        state: present
+        name: gmarciani@do_kubernetes
+        ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        api_token: "{{ do_token }}"
+      register: my_ssh_key
+
+    - name: Ensure droplets destroyed
+      digital_ocean:
+        command: droplet
+        state: absent
+        name: "{{ item.key }}"
+        image_id: "{{ item.value.image_id }}"
+        size_id: "{{ item.value.size_id }}"
+        region_id: "{{ item.value.region_id }}"
+        api_token: "{{ do_token }}"
+        ssh_key_ids: "{{ my_ssh_key.ssh_key.id }}"
+        unique_name: yes
+      with_dict: "{{ droplets }}"
+      register: droplet_info

@@ -1,0 +1,7 @@
+---
+# file: inventory.yaml
+instance:
+  name: "do-openshift"
+  image: "centos-7.4-x64"
+  region: "ams2"
+  size: "2gb"
