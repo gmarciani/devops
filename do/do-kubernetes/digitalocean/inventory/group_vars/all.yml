@@ -1,5 +1,5 @@
 ---
-do_token: 3ca9cb9018bf021733ffdcb44273d995c44992abce2489778f9190254cbaba95
+do_token: ansible_env.DO_TOKEN
 
 droplets:
   kubernetes-master-1:
