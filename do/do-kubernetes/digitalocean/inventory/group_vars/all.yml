@@ -1,18 +1,34 @@
 ---
 droplets:
-  kubernetes-master-1:
+  - name: kube-master-1
     image_id: ubuntu-16-04-x64
     size_id: 4gb
     region_id: ams2
-  kubernetes-etcd-1:
+    tag: kube-master
+
+  - name: kube-etcd-1
     image_id: ubuntu-16-04-x64
     size_id: 2gb
     region_id: ams2
-  kubernetes-worker-1:
+    tag: kube-etcd
+
+  - name: kube-worker-1
     image_id: ubuntu-16-04-x64
     size_id: 2gb
     region_id: ams2
-  kubernetes-worker-2:
+    tag: kube-worker
+
+  - name: kube-worker-2
     image_id: ubuntu-16-04-x64
     size_id: 2gb
     region_id: ams2
+    tag: kube-worker
+
+tags:
+  - kube-master
+  - kube-etcd
+  - kube-worker
+
+proxy:
+  http: "" #http://10.237.220.72:80
+  https: "" #https://10.237.220.72:80

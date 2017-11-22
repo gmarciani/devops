@@ -49,8 +49,8 @@ kube_users:
       - system:masters
 
 ## It is possible to activate / deactivate selected authentication methods (basic auth, static token auth)
-#kube_oidc_auth: false
 kube_basic_auth: true
+#kube_oidc_auth: false
 #kube_token_auth: false
 
 
@@ -155,9 +155,9 @@ helm_enabled: false
 istio_enabled: false
 
 # Make a copy of kubeconfig on the host that runs Ansible in GITDIR/artifacts
-# kubeconfig_localhost: false
+kubeconfig_localhost: true
 # Download kubectl onto the host that runs Ansible in GITDIR/artifacts
-# kubectl_localhost: false
+kubectl_localhost: false
 
 # dnsmasq
 # dnsmasq_upstream_dns_servers:

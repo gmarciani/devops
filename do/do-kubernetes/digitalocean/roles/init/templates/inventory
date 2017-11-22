@@ -1,0 +1,21 @@
+kube-master-1 ansible_ssh_host={{ droplet_info.results[0].droplet.ip_address }} ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa # ip=10.3.0.1
+kube-etcd-1 ansible_ssh_host={{ droplet_info.results[1].droplet.ip_address }} ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa # ip=10.3.0.2
+kube-worker-1 ansible_ssh_host={{ droplet_info.results[2].droplet.ip_address }} ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa # ip=10.3.0.2
+kube-worker-2 ansible_ssh_host={{ droplet_info.results[3].droplet.ip_address }} ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa # ip=10.3.0.3
+
+# ## configure a bastion host if your nodes are not directly reachable
+# bastion ansible_ssh_host=x.x.x.x
+
+[kube-master]
+kube-master-1
+
+[etcd]
+kube-etcd-1
+
+[kube-node]
+kube-worker-1
+kube-worker-2
+
+[k8s-cluster:children]
+kube-master
+kube-node
